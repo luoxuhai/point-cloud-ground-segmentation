@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" id="file" />
+    <canvas id="canvas"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/pcl.js/dist/pcl.js"></script>
+    <script type="module">
+      import { PatchWorkpp } from '../dist/point-cloud-ground-segmentation.esm.js';
+
+      async function main() {
+        await PCL.init();
+        const patchwork = await new PatchWorkpp(
+          {
+            url: '../dist/patchworkpp.wasm',
+          },
+          {
+            verbose: true,
+          },
+        );
+        const onload = (e) => {
+          const { data } = PCL.loadPCDData(e.target.result, PCL.PointXYZI);
+
+          const size = data.length * 4;
+          const cloudIn = new Float32Array(size);
+          for (let i = 0; i < size / 4; i++) {
+            cloudIn[i] = data[i].x;
+            cloudIn[i + 1] = data[i].y;
+            cloudIn[i + 2] = data[i].z;
+            cloudIn[i + 3] = data[i].intensity;
+          }
+
+          patchwork.estimateGround(cloudIn);
+          const ground = patchwork.getGround();
+          const timeTaken = patchwork.getTimeTaken();
+          console.log('ground', ground);
+        };
+
+        const fileInput = document.getElementById('file');
+        fileInput.onchange = (e) => {
+          const reader = new FileReader();
+          reader.onload = onload;
+          reader.readAsArrayBuffer(e.target.files[0]);
+        };
+      }
+
+      main();
+    </script>
+  </body>
+</html>

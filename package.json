@@ -1,10 +1,20 @@
 {
-  "name": "ground-segmentation",
+  "name": "point-cloud-ground-segmentation",
   "version": "0.1.0",
   "description": "A ground segmentation in 3D Point Cloud for Autonomous Vehicles, run in Browser.｜在浏览器运行的自动驾驶 3D 点云地面分割。",
-  "main": "index.js",
+  "types": "dist/src/index.d.ts",
+  "main": "dist/point-cloud-ground-segmentation.cjs.js",
+  "module": "dist/point-cloud-ground-segmentation.esm.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:js": "rollup -c --bundleConfigAsCjs -w --environment ENV:development",
+    "dev:wasm": "npm run clean:wasm && bash scripts/build.sh",
+    "dev": "npm run dev:wasm && npm run dev:js",
+    "build:js": "rollup -c --bundleConfigAsCjs",
+    "build:wasm": "npm run clean:wasm && scripts/build.sh Release",
+    "build": "npm run build:wasm && npm run build:js",
+    "clean": "rimraf dist/*",
+    "prebuild": "npm run clean",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -31,9 +41,14 @@
     "eslint-plugin-n": "^15.5.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-promise": "^6.1.1",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
     "prettier": "^2.7.1",
     "rollup": "^3.3.0",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-serve": "^2.0.1",
     "rollup-plugin-typescript2": "^0.34.1",
+    "ts-jest": "^29.0.3",
     "typescript": "^4.9.3"
   },
   "prettier": {

@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "ES2015",
+    "target": "ES2015",
+    "lib": ["ES2015", "ES2016", "ES2017", "DOM"],
+    "types": ["jest", "node"],
+    "declaration": true,
+    "declarationDir": "dist",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "baseUrl": "./"
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules", "build", "dist", "tests", "website"]
+}
