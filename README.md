@@ -3,7 +3,7 @@
 ## Usage
 
 ```ts
-import { PatchWorkpp } from './dist/ground-segmentation.esm.js'
+import { PatchWorkpp } from './dist/point-cloud-ground-segmentation.esm.js'
 
 
 async function main() {
